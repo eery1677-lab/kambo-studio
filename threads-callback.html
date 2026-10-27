@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kambo Studio — connecting</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+<h1>Connecting…</h1>
+<p id="msg">Passing the one-time code to Kambo Studio on this computer.</p>
+</main>
+<script>
+// Threads only accepts https redirect URLs. This page stores nothing: it forwards the one-time
+// authorization code (valid 1 hour, useless without the app secret kept on the owner's computer)
+// to the local app running on this same computer.
+(function () {
+  var target = "http://localhost:8001/api/oauth/threads/callback";
+  var q = window.location.search || "";
+  if (!/[?&](code|error)=/.test(q)) {
+    document.getElementById("msg").textContent = "No authorization code in this address. Start the connection again from Kambo Studio.";
+    return;
+  }
+  window.location.replace(target + q);
+})();
+</script>
+</body>
+</html>
